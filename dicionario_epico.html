@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Livro do Caminhante</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 1rem;
+      background: #f7f2e7;
+      font-family: Georgia, serif;
+      color: #2e1a0f;
+    }
+    header {
+      text-align: center;
+      padding: 0.5rem 0;
+      font-size: 1.25rem;
+      border-bottom: 1px solid #d3c4a1;
+    }
+    .card {
+      background: #fffaf0;
+      border-radius: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      margin: 1rem 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .phrase {
+      font-weight: bold;
+      margin: 0.5rem 0;
+      line-height: 1.4;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .tag-word {
+      font-style: italic;
+      color: #806442;
+      background: rgba(128,100,66,0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.25rem;
+      white-space: nowrap;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .gaucho {
+      border-top: 1px dashed #d3c4a1;
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    button.load-more {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #d3c4a1;
+      color: #2e1a0f;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Livro do Caminhante</header>
+  <div id="cards"></div>
+  <button class="load-more" onclick="renderPhrases()">Carregar Mais</button>
+
+  <script>
+   const phrases = [
+  {
+    text: "No altar das ruínas, os nobres cavaleiros cavalgam os sonhos de tempos antigos…",
+    tags: ["altar","ruínas","nobres","cavaleiros","cavalgam","sonhos","tempos","antigos"]
+  },
+  {
+    text: "Sob o estandarte rasgado pela tormenta, a profecia ecoava em corredores de salmos esquecidos…",
+    tags: ["estandarte","rasgado","tormenta","profecia","ecoava","corredores","salmos","esquecidos"]
+  },
+  {
+    text: "Grilhões invisíveis prendiam a esperança nas muralhas do silêncio perpetuado…",
+    tags: ["grilhões","invisíveis","prendiam","esperança","muralhas","silêncio","perpetuado"]
+  },
+  {
+    text: "O trono selado clamava por herdeiros na escuridão de um reino condenado…",
+    tags: ["trono","selado","clamava","herdeiros","escuridão","reino","condenado"]
+  },
+  {
+    text: "À sombra do zigurate, alquimistas murmuravam sobre o véu dos ossos enterrados…",
+    tags: ["sombra","zigurate","alquimistas","murmuravam","véu","ossos","enterrados"]
+  },
+  {
+    text: "Campeiros à beira do fogo entoavam causos sob céus desestas…",
+    tags: ["campeiros","beira","fogo","entoavam","causos","céus","desestas"]
+  },
+  {
+    text: "O cálice rachado repousava entre brasas, sussurrando pactos aos monges em penitência…",
+    tags: ["cálice","rachado","brasas","sussurrando","pactos","monges","penitência"]
+  },
+  {
+    text: "Na relva encharcada, o oráculo cego guiava o exílio dos espectros famintos…",
+    tags: ["relva","encharcada","oráculo","cego","guiava","exílio","espectros","famintos"]
+  },
+  {
+    text: "As sentinelas do abismo juraram fidelidade à chama do relento em oração muda…",
+    tags: ["sentinelas","abismo","juraram","fidelidade","chama","relento","oração","muda"]
+  },
+  {
+    text: "Sob o clangor dos sinos, o bastião tombava sem glória aos pés da cruz enferrujada…",
+    tags: ["clangor","sinos","bastião","tombava","glória","cruz","enferrujada"]
+  },
+  {
+    text: "Mártires vestidos de treva caminhavam sobre salinas onde o tempo fora esquecido…",
+    tags: ["mártires","treva","caminhavam","salinas","tempo","esquecido"]
+  },
+  {
+    text: "Os ventos da coxilha traziam lembranças de lanças, cismas e galope entre cinzas…",
+    tags: ["ventos","coxilha","lembranças","lanças","cismas","galope","cinzas"]
+  },
+  {
+    text: "Na forja abandonada, o martelo conhecia o peso da renúncia sem testemunha…",
+    tags: ["forja","abandonada","martelo","peso","renúncia","testemunha"]
+  },
+  {
+    text: "Ermitões fiéis guardavam as últimas sílabas do nome que selava portais esquecidos…",
+    tags: ["ermitões","fiéis","guardavam","últimas","sílabas","nome","portais","esquecidos"]
+  },
+  {
+    text: "Bailantas de alma turva assobiavam promessas ao luar de lonjuras adormecidas…",
+    tags: ["bailantas","alma","turva","assobiavam","promessas","luar","lonjuras","adormecidas"]
+  }
+];
+
+
+    let index = 0;
+    function renderPhrases() {
+      const container = document.getElementById('cards');
+      for (let i = 0; i < 2 && index < phrases.length; i++, index++) {
+        const item = phrases[index];
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // Frase principal em negrito
+        const p = document.createElement('p');
+        p.className = 'phrase';
+        p.textContent = item.text;
+        card.appendChild(p);
+
+        // Tags flexíveis
+        const tagLine = document.createElement('div');
+        tagLine.className = 'tags';
+        item.tags.forEach(word => {
+          const span = document.createElement('span');
+          span.className = 'tag-word';
+          span.textContent = word;
+          tagLine.appendChild(span);
+        });
+        card.appendChild(tagLine);
+
+        // Frase gauchesca, se houver
+        if (item.gaucho) {
+          const gau = document.createElement('div');
+          gau.className = 'gaucho';
+          const pg = document.createElement('p');
+          pg.className = 'phrase';
+          pg.textContent = item.gaucho.text;
+          gau.appendChild(pg);
+
+          const tagsG = document.createElement('div');
+          tagsG.className = 'tags';
+          item.gaucho.tags.forEach(word => {
+            const span = document.createElement('span');
+            span.className = 'tag-word';
+            span.textContent = word;
+            tagsG.appendChild(span);
+          });
+          gau.appendChild(tagsG);
+          card.appendChild(gau);
+        }
+
+        container.appendChild(card);
+      }
+
+      if (index >= phrases.length) {
+        const btn = document.querySelector('.load-more');
+        btn.disabled = true;
+        btn.textContent = 'Fim do Caminho';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderPhrases);
+  </script>
+
+</body>
+</html>
